@@ -1,0 +1,12 @@
+name: simple-join-message
+version: '0.2.1-SNAPSHOT'
+main: io.github.planethouki.SimpleJoinMessage
+api-version: '1.21'
+commands:
+  sjm:
+    description: "SimpleJoinMessage command"
+    permission: "simplejoinmessage.command.sjm"
+permissions:
+  simplejoinmessage.command.sjm:
+    description: "Allows the player to use the /sjm command"
+    default: op
