@@ -1,4 +1,4 @@
-name: simple-join-message-ai
+name: SimpleJoinMessageAI
 version: '0.0.1-SNAPSHOT'
 main: io.github.planethouki.SimpleJoinMessageAI
 api-version: '1.21'
