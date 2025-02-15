@@ -18,7 +18,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.UUID;
 
-public final class SimpleJoinMessage extends JavaPlugin implements Listener {
+public final class SimpleJoinMessageAI extends JavaPlugin implements Listener {
 
     private String openAiApiKey;
     private String defaultMessage;
