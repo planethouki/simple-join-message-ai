@@ -21,7 +21,6 @@ import java.util.UUID;
 public final class SimpleJoinMessageAI extends JavaPlugin implements Listener {
 
     private String openAiApiKey;
-    private String defaultMessage;
     private String systemPrompt;
     private String userPrompt;
     private int maxTokens;
@@ -36,9 +35,16 @@ public final class SimpleJoinMessageAI extends JavaPlugin implements Listener {
 
         // config.ymlが存在しない場合に作成
         saveDefaultConfig();
-
         loadConfigValues();
 
+        // OpenAI API キーが設定されていない場合にプラグインを無効化
+        if (openAiApiKey == null || openAiApiKey.isEmpty()) {
+            getLogger().severe("OpenAI API key is not set. Disabling the plugin...");
+            getServer().getPluginManager().disablePlugin(this); // プラグインを無効化
+            return;
+        }
+
+        // イベントの登録
         getServer().getPluginManager().registerEvents(this, this);
     }
 
@@ -58,10 +64,6 @@ public final class SimpleJoinMessageAI extends JavaPlugin implements Listener {
         }
 
         lastGreetTimes.put(playerId, currentTime);
-
-        if (openAiApiKey == null || openAiApiKey.isEmpty() ) {
-            player.sendMessage(ChatColor.AQUA + "[Server] " + ChatColor.RESET + defaultMessage);
-        }
 
         getServer().getScheduler().runTaskAsynchronously(this, () -> {
             String greeting = fetchGreetingFromOpenAi();
@@ -99,7 +101,6 @@ public final class SimpleJoinMessageAI extends JavaPlugin implements Listener {
 
         // 必要な設定値を取得
         openAiApiKey = config.getString("openai-api-key");
-        defaultMessage = config.getString("welcome-message", "Welcome to the server!");
         systemPrompt = config.getString("system-prompt", "You are a helpful assistant.");
         userPrompt = config.getString("user-prompt", "Think of a one-line welcome message for the user and return only the message.");
         maxTokens = config.getInt("max-tokens", 50);
